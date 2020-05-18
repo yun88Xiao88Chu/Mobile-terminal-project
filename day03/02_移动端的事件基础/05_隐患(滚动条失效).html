@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0,minimum-scale=1.0">
+    <title>webapp</title>
+    <style type="text/less">
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        #app{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        #wrap{
+            width: 200px;
+            height: 200px;
+            background: pink;
+            text-align: center;
+            overflow: auto;
+
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            top: 0;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div id="wrap">
+             wrap<br>
+             wrap<br>
+             wrap<br>
+             wrap<br>
+             wrap<br>
+             wrap<br>
+             wrap<br>
+             wrap<br>
+             wrap<br>
+             wrap<br>
+             wrap<br>
+             wrap<br>
+             wrap<br>
+        </div>
+    </div>
+    <script>
+        const app = document.querySelector("#app")
+        const wrap = document.querySelector("#wrap")
+        app.addEventListener("touchstart",(ev)=>{
+            ev = ev || event;
+            console.log(ev.cancelable)
+            ev.preventDefault()
+        })
+        /*wrap.addEventListener("touchstart",(ev)=>{
+            ev = ev || event;
+            ev.stopPropagation()
+        })*/
+    </script>
+</body>
+<script src="https://cdn.bootcdn.net/ajax/libs/less.js/3.11.1/less.min.js"></script>
+</html>

@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=750">
+    <title>webapp</title>
+    <style type="text/less">
+        /*less的混合 像素比不同的情况下,使用不一样的图片-webkit-device-pixel-ratio*/
+        .bg(@url){
+            background-image: url("@{url}@2x.png");
+            @media only screen and (-webkit-device-pixel-ratio:3){
+            background-image: url("@{url}@3x.png");
+          }
+        }
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        #wrap{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            .header{
+                width: 100%;
+                height: 268px;
+                .top{
+                    box-sizing: border-box;
+                    height: 212px;
+                    padding: 48px 24px 36px 48px;
+                    background: gray;
+                    .avatar{
+                        width: 128px;
+                        height: 128px;
+                        float: left;
+                        margin-right: 32px;
+                        img{
+                           width: 100%;
+                           height: 100%;
+                           border-radius: 4px
+                        ;
+                        }
+                    }
+                    .info{
+                        float: left;
+                        color: rgba(255,255,255,1);
+                        margin-top: -12px;
+                        .title{
+                            margin-top: 4px;
+                            margin-bottom: 16px;
+                            font-size: 0;
+                            .brand{
+                                display: inline-block;
+                                width: 60px;
+                                height: 36px;
+                                vertical-align: middle;
+                                margin-top: 4px;
+                                .bg("./img/brand");
+                                background-size: 100%;
+                                background-repeat: no-repeat;
+                                margin-right: 12px;
+                            }
+                            .name{
+                                font-size: 32px;
+                                font-weight: bold;
+                                vertical-align: middle;
+                            }
+                        }
+                        .desc{
+                            font-size: 24px;
+                        }
+                        .support{
+                            margin-top: 20px;
+                            margin-bottom: 4px;
+                            font-size: 0;
+                            .icon{
+                                width: 24px;
+                                height: 24px;
+                               .bg("./img/decrease_1");
+                                background-size: 100%;
+                                background-repeat: no-repeat;
+                                display: inline-block;
+                                margin-right: 8px;
+                                vertical-align: middle;
+                            }
+                            .text{
+                                font-size: 20px;
+                                vertical-align: middle;
+                            }
+                        }
+                    }
+                }
+                .bottom{
+                    height: 56px;
+                    background: pink;
+                }
+            }
+            .navs{
+                width: 100%;
+                height: 80px;
+                background: red;
+                .item{
+                    width: 33.3333%;
+                    height: 100%;
+                    float: left;
+                    display: table;
+                    a{
+                       display: table-cell;
+                       vertical-align: middle;
+                       width: 100%;
+                       height: 100%;
+                       text-align: center;
+                       text-decoration: none;
+                       color: rgba(77,85,93,1);
+                       font-size: 28px;
+                       line-height: 28px;
+                    }
+                }
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 让wrap充当整个视口区域 -->
+    <div id="wrap">
+        <div class="header">
+            <div class="top">
+                <div class="avatar">
+                    <img src="img/avatar.jpg" alt="">
+                </div>
+                <div class="info">
+                    <div class="title">
+                        <i class="brand"></i>
+                        <span class="name">粥品香坊(大运村)</span>
+                    </div>
+                    <div class="desc">
+                        <span>蜂鸟专送/38分钟送达</span>
+                    </div>
+                    <div class="support">
+                        <i class="icon"></i>
+                        <span class="text">在线支付满28送老板</span>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom"></div>
+        </div>
+        <div class="navs">
+            <div class="item">
+                <a href="javascript:;">商品</a>
+            </div>
+            <div class="item">
+                <a href="javascript">评价</a>
+            </div>
+            <div class="item">
+                <a href="javascript:;">商家</a>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="https://cdn.bootcdn.net/ajax/libs/less.js/3.11.1/less.min.js"></script>
+</html>

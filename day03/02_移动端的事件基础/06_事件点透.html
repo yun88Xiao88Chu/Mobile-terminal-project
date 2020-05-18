@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0,minimum-scale=1.0">
+    <title>webapp</title>
+    <style type="text/less">
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        #app{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        #wrap{
+            width: 200px;
+            height: 200px;
+            background: pink;
+            text-align: center;
+            overflow: auto;
+
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div id="wrap">
+            
+        </div>
+        <a href="http://www.atguigu.com">回娘家</a>
+    </div>
+</body>
+<script>
+    const app = document.querySelector("#app");
+    app.addEventListener("touchstart",(ev)=>{
+        ev=ev || event;
+        ev.preventDefault()
+    });
+    //pc端的事件在移动端有300毫秒的延迟
+    const wrap = document.querySelector("#wrap")
+    wrap.addEventListener("touchstart",function(ev){
+        ev=ev||event;
+        this.style.display = "none";
+    })
+</script>
+<script src="https://cdn.bootcdn.net/ajax/libs/less.js/3.11.1/less.min.js"></script>
+</html>
