@@ -5,7 +5,7 @@
 
     w.swiper = {};
     //wrap:移动端开发时的包裹节点
-    function init(wrap,arr) {
+    function init(wrap) {
         //挑选一个适配方案
         var styleNode = document.createElement("style");
         var w = document.documentElement.clientWidth/16;
@@ -16,7 +16,6 @@
             ev = ev || event;
             ev.preventDefault();
         })
-        slide(arr);
     };
     //arr:当前无缝滑屏需要的图片的地址
     function slide(arr){
@@ -69,16 +68,11 @@
             swiperWrap.style.height = liNode.offsetHeight + "px";
         },200)
 
-        var needAuto = swiperWrap.getAttribute("needAuto");
         //开始滑屏
-        move(swiperWrap,ulNode,pointWrap,arr,needWF,needAuto)
-        //自动滑屏
-        if(needAuto !== null && needWF !== null){
-            autoMove(ulNode,pointWrap,0) 
-        }
+        move(swiperWrap,ulNode,pointWrap,arr,needWF)
     }
     //滑屏的主体方法
-    function move(wrap,node,pWrap,arr,needWF,needAuto){
+    function move(wrap,node,pWrap,arr,needWF){
         /*
             基本逻辑
                 1. 拿到滑屏元素一开始的位置
@@ -86,26 +80,16 @@
                 3. 将手指滑动的距离给滑屏元素加上
         */
         var eleStartX = 0;
-        var eleStartY = 0;
         var touchStartX = 0;
-        var touchStartY = 0;
         var touchDisX = 0;
-        var touchDisY = 0;
         var index = 0; // 图片的下标
-        
-        //防抖动需要的变量
-        var isFirst = true; //让一段逻辑只执行一次需要的变量
-        var isX = true; //用户的滑屏方向是否是x轴
-
+        // var translateX = 0;
         wrap.addEventListener("touchstart",function (ev) {
             ev = ev || event;
             node.style.transition = "";
 
-            clearInterval(node.timer)
-
             var touchC = ev.changedTouches[0];
             touchStartX = touchC.clientX;//手指一开始的位置
-            touchStartY = touchC.clientY;
             
             //无缝的逻辑
             if(needWF !== null){
@@ -122,41 +106,12 @@
             }
             //元素一开始的位置 一定要等无缝逻辑走完之后才能确定
             eleStartX = css(node,"translateX");
-            eleStartY = css(node,"translateY");
-
-            //防抖动的值得重新置回来
-            isFirst = true;
-            isX = true;
-
         })
         wrap.addEventListener("touchmove",function (ev) {
-
-            //看门狗
-            if(!isX){
-                //咬住
-                return;//防的是后续的抖动
-            }
-
             ev = ev || event;
             var touchC = ev.changedTouches[0];
             var touchNowX = touchC.clientX;//手指的实时位置
-            var touchNowY = touchC.clientY;
-
-            //触发第一次touchmove时 手指在x轴 和 y轴上的位移(有正 有负)
             touchDisX = touchNowX - touchStartX;//手指滑动的距离
-            touchDisY = touchNowY - touchStartY;
-            
-            if(isFirst){
-                isFirst = false
-                //如果在手指的滑动方向是y轴  则需要停止整个滑屏逻辑
-                if(Math.abs(touchDisY)>Math.abs(touchDisX)){
-                    //说明滑动的方向 是偏向y轴的
-                    isX = false;
-                    return; //防的是首次抖动
-                }
-            }
-
-            //真正让滑屏元素产生位移的代码!!!
             css(node,"translateX",eleStartX+touchDisX)
         })
         wrap.addEventListener("touchend",function () {
@@ -177,49 +132,16 @@
                 var points = pWrap.querySelectorAll("span");
                 for(var i=0;i<points.length;i++){
                     points[i].classList.remove("active");
-                }
-                //不管无缝有没有复制一组图片 小圆点的下标永远都是0到4
+                } //index一直是负值,加符号号变成正值
                 points[-index%pWrap.size].classList.add("active");
             }
+            
 
             node.style.transition = ".5s transform";
             css(node,"translateX",index*document.documentElement.clientWidth)
-
-            //重新开启自动轮播
-           if(needWF !==null && needAuto !== null){
-              autoMove(node,pWrap,index)
-           }
         })
     }
-    function autoMove(node,pWrap,autoFlag){
-        clearInterval(node.timer);
-        
-        // var autoFlag = 0; //所有的下标都看成负值
-        node.timer = setInterval(function(){
-            node.style.transition = ".5s transform linear"
-            //自动滑屏
-            autoFlag--;
-            css(node,"translateX",autoFlag*document.documentElement.clientWidth)
-            //小圆点的逻辑
-            if(pWrap){
-               var points = pWrap.querySelectorAll("span");
-               for(var i=0; i<points.length;i++){
-                  points[i].classList.remove("active");
-               }
-               points[-autoFlag%pWrap.size].classList.add("active") 
-            }
-        },2000); 
 
-        node.addEventListener("transitionend",function(){
-            //完成过渡动画后会触发的事情
-            //无缝 当自动滑到第二组的最后一张时,立马跳到第一组的最后一张
-            if(autoFlag === 1-pWrap.size*2){
-                autoFlag = 1 - pWrap.size;
-                node.style.transition = ""
-                css(node,"translateX",autoFlag*document.documentElement.clientWidth)
-            }
-        })
-    }
     w.swiper.init =init
     w.swiper.slide=slide
 })(window)
