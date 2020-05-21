@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no,maximum-scale=1.0,minimum-scale=1.0">
+  <title>Document</title>
+  <style>
+    *{margin: 0;padding: 0;}
+    html,body{width: 100%;height: 100%;overflow: hidden;}
+    #wrap{width: 100%;height: 100%;text-align: center;background: pink;overflow: hidden;position: relative}
+    #wrap > .bar{
+        width: 4px;
+        height: 40px;
+        background: deeppink;
+        position: absolute;
+        right: 0;
+        top: 0;
+
+        opacity: 0;
+        transition: 1s opacity;
+    }
+</style>
+</head>
+<body>
+    <div id="wrap">
+      <div class="content"></div>
+      <div class="bar"></div>
+    </div>
+</body>
+<script src="./js/transform.js"></script>
+<script src="./js/base.js"></script>
+<script>
+    /* 
+      0.实现橡皮筋效果(translateX+持续减小的速度值)
+      1.实现防抖动(isFirst和isX 两个开关)
+      2.实现快速滑屏(transition过渡的贝塞尔曲线效果)
+      3.实现即点即停(基于tween算法)
+    */
+     //确保初次渲染完成
+     window.onload = function(){
+        var wrap = document.querySelector("#wrap");
+        var content = document.querySelector(".content");
+        var bar = document.querySelector("#wrap>.bar");
+        //重绘 重排
+        for(var i=0;i<200;i++){
+           content.innerHTML += '周冬雨❤达姆'+(i)+'<br/>';
+        }
+        //竖向滑屏 钩子函数 希望钩子中的this指向滑屏元素
+        scroll.init({
+          wrap,
+          start(){
+                /*
+                    动态的计算滚动条的高度
+                    滚动条的高度/视口的高度 = 滑屏区域的高度/滑屏元素的高度
+
+                    滚动条的高度 = (滑屏区域的高度/滑屏元素的高度) * 视口的高度
+                */
+            var scale = (wrap.clientHeight/content.offsetHeight);
+            bar.style.height = document.documentElement.clientHeight *scale + "px";
+            bar.style.opacity = 1;
+          },
+          move(){
+             //当整个滑屏元素在滑动时触发
+              /*
+                  滑屏元素在滑动明时 让滚动条反方向移动
+                  滚动条滑动的实时距离 / 滚动条可以滑动的最远距离
+                      = 滑屏元素滑动的实时距离/滑屏元素可以滑动的最远距离
+              */
+             var scale = transform.css(this,"translateY") / (this.offsetHeight - document.documentElement.clientHeight);
+             var barMax = document.documentElement.clientHeight - bar.offsetHeight;
+             transform.css(bar,"translateY",-barMax*scale)
+          },
+          end(){},
+          over(){
+            bar.style.opacity = 0;
+          }
+        })
+       
+     }
+</script>
+</html>

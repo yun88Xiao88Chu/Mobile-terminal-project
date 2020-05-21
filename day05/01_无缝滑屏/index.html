@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0">
+    <link rel="stylesheet" href="./css/base.css">
+    <style>
+        *{margin: 0;padding: 0;}
+        html,body{width: 100%;height: 100%;overflow: hidden;}
+        #wrap{width: 100%;height: 100%;overflow: hidden;}
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <div class="swiper-wrap" needWF needAuto>
+            <div class="point-wrap"></div>
+        </div>
+    </div>
+</body>
+<script src="./js/transform.js"></script>
+<script src="./js/base.js"></script>
+<script>
+    window.onload=function () {
+        var wrap = document.querySelector("#wrap");
+        var arr = ["./img/1.jpg","./img/2.jpg","./img/3.jpg","./img/4.jpg","./img/5.jpg"]
+        swiper.init(wrap,arr);
+    }
+</script>
+</html>
