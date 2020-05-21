@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+</style>
+<body>
+  <div id="app">
+     <span>{{msg}}</span>
+  </div>
+</body>
+<script src="./js/vue.runtime.js"></script>
+<script>
+  Vue.config.productionTip = false;
+  var vm = new Vue({
+      el:"#app",
+      data:{
+         msg:"hello vue"
+      },
+     render(createElement){
+        //用来指定vue需要渲染出的模板
+        return createElement("i",this.msg)
+     }
+  })
+</script>
+</html>
